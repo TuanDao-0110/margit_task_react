@@ -1,32 +1,22 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment, incrementByAmount } from './redux/reducer'
 import './App.css'
 // import styles from './Counter.module.css'
 export default function App() {
-  const count = useSelector((state) => state.counter.value)
+  // const useSelector(state => state)
   const dispatch = useDispatch()
-
+  const { carNumber } = useSelector(state => state.car)
+  const { numOfItems } = useSelector(state => state.cart)
   return (
-    <div>
-      <div>
-        <button
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          Increment
-        </button>
-        <span>{count}</span>
-        <button
-          aria-label="Decrement value"
-          // onClick={() => dispatch(decrement())}
-          onClick={() => {
-            dispatch(incrementByAmount(500))
-          }}
-        >
-          Decrement
-        </button>
-      </div>
+    <div className='w-full  bg-slate-500 h-96 flex items-center justify-center	'>
+      <p className="text-blue-700 text-center">
+
+        this is call from car reducer---
+        {carNumber}
+        <br></br>
+        this is call from cart reducer:---
+        {numOfItems}
+      </p>
     </div>
   )
 }

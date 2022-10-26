@@ -1,10 +1,10 @@
 import { ADD_ITEM, DELETE_ITEM } from "./action";
 
 const initialState = {
-  numOfItems: 10,
+  carNumber: 20,
 };
 
-const cartReducer = (state = initialState, action) => {
+const carReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ITEM:
       return {
@@ -21,4 +21,4 @@ const cartReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default cartReducer;
+export default carReducer;

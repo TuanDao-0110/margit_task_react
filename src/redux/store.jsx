@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./reducer";
-export default configureStore({
-  reducer: {
-    counter: counterReducer,
-  },
-});
+import cartReducer from "./reducer";
+import carReducer from "./carReducer";
+
+const store = configureStore({ reducer: { cart: cartReducer, car: carReducer } });
+
+export default store;
