@@ -30,21 +30,24 @@ export default class Animal_page extends Component {
   };
   renderedCard = () => {
     return (
-      <div className="flex flex-wrap gap-5 justify-center">
-        {this.state.birds?.map((bird, index) => (
-          <Card key={index} bird={bird} likeFn={this.likeFn} deleteFn={this.deleteCard} disLikeFn={this.disLikeFn}></Card>
-        ))}
-      </div>
+      <>
+        <div className="flex flex-wrap gap-5 justify-center">
+          {this.state.birds?.map((bird, index) => (
+            <Card key={index} bird={bird} likeFn={this.likeFn} deleteFn={this.deleteCard} disLikeFn={this.disLikeFn}></Card>
+          ))}
+        </div>
+      </>
     );
   };
   render() {
     return (
       <div>
-        <h1 className="text-center text-lime-300 text-2xl">Animal : {this.state.birds.length} </h1>
+        <h1 className="text-center text-lime-800 text-5xl">This is bird project</h1>
+        <h2 className="text-center text-lime-300 text-2xl">Animal : {this.state.birds.length} </h2>
         <div className="flex justify-center">
           <input
             placeholder="Searching animal by name"
-            className="text-4xl border-2 border-rose-200 w-1/3 p-5 mb-20 mt-20 "
+            className="text-4xl border-2 border-rose-200 w-1/3 p-5 mb-20 mt-10 "
             onChange={(e) => {
               this.searching(e.target.value);
             }}

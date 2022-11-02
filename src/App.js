@@ -8,7 +8,6 @@ export default function App() {
   return (
     
     <div className='capitalize'>
-      <h1 className='text-center text-gray-800 '> this is about the birds</h1>
       <AnimalPage></AnimalPage>
     </div>
   )
