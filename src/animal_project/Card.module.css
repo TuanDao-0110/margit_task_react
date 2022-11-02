@@ -1,0 +1,41 @@
+.card {
+    width: 25%;
+    height: 400px;
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.card img {
+    overflow: hidden;
+}
+.quit {
+    position: absolute;
+    right: 50px;
+    top: 10px;
+    color: greenyellow;
+    font-size: 40px;
+    transition: all 0.3s;
+    cursor: pointer;
+    backdrop-filter: invert(80%);
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+}
+.quit:hover {
+    backdrop-filter: invert(1%);
+    color: red;
+}
+.details {
+}
+.like {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.like:hover {
+    transform: scale(50%);
+    color: blue;
+}
