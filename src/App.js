@@ -1,14 +1,16 @@
 import React from 'react'
 import AnimalPage from './animal_project/Animal_page'
+import Page from './pokemon_project/Page'
 import './App.css'
 // import styles from './Counter.module.css'
 export default function App() {
   // const useSelector(state => state)
-  
+
   return (
-    
+
     <div className='capitalize'>
-      <AnimalPage></AnimalPage>
+      {/* <AnimalPage></AnimalPage> */}
+      <Page></Page>
     </div>
   )
 }
