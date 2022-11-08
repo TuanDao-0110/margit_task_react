@@ -17,7 +17,7 @@ export default function FormPage() {
   });
   const emptyState = () => {
     setState({
-      modal: true,
+      modal: false,
       infor: {
         firstName: "",
         lastName: "",
@@ -29,10 +29,12 @@ export default function FormPage() {
   };
   const handleSend = (e) => {
     e.preventDefault();
-    setState({
-      ...state,
-      modal: true,
-    });
+    !state.infor.role
+      ? alert("Select Your role")
+      : setState({
+          ...state,
+          modal: true,
+        });
   };
   const handleChange = (e, key) => {
     let newValue = { ...state.infor };
@@ -54,6 +56,7 @@ export default function FormPage() {
               <textarea
                 value={state.infor[i]}
                 type="text"
+                required
                 className="w-2/3 p-2 border-r-amber-300 rounded-sm border-2 text-2xl font-serif h-56"
                 onChange={(e) => {
                   console.log(i);
@@ -62,6 +65,7 @@ export default function FormPage() {
               />
             ) : (
               <input
+                required
                 value={state.infor[i]}
                 type="text"
                 className="w-2/3 p-2 border-r-amber-300 rounded-sm border-2 text-2xl font-serif "
@@ -78,7 +82,7 @@ export default function FormPage() {
           <div key={i} className="w-full flex justify-between mb-2  ">
             <label className="w-1/3 text-xl">{i}</label>
             <select
-              value={state.infor[i]}
+              // value={state.infor[i]}
               className="w-2/3 p-2 border-r-amber-300 rounded-sm border-2 text-2xl font-serif text-center capitalize"
               onChange={(e) => {
                 handleChange(e, i);
@@ -116,7 +120,7 @@ export default function FormPage() {
   };
   return (
     <div>
-      <Modal display={state.modal} infor={state.infor} displayInfor={displayInfor} closeModal={closeModal}></Modal>
+      <Modal display={state.modal} infor={state.infor} displayInfor={displayInfor} closeModal={closeModal} emptyState={emptyState}></Modal>
       {/* form */}
       <div className="bg-blue-400 w-3/4 mx-auto pb-10 px-10 " onSubmit={handleSend}>
         <h1 className="text-3xl text-center mt-2">form</h1>
