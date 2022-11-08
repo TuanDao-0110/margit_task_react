@@ -15,8 +15,7 @@ export default function FormPage() {
       message: "",
     },
   });
-  const handleSend = (e) => {
-    e.preventDefault();
+  const emptyState = () => {
     setState({
       modal: true,
       infor: {
@@ -26,6 +25,13 @@ export default function FormPage() {
         role: "",
         message: "",
       },
+    });
+  };
+  const handleSend = (e) => {
+    e.preventDefault();
+    setState({
+      ...state,
+      modal: true,
     });
   };
   const handleChange = (e, key) => {
@@ -102,9 +108,15 @@ export default function FormPage() {
 
     return dispay;
   };
+  const closeModal = () => {
+    setState({
+      ...state,
+      modal: false,
+    });
+  };
   return (
     <div>
-      <Modal display={state.modal} infor={state.infor}></Modal>
+      <Modal display={state.modal} infor={state.infor} displayInfor={displayInfor} closeModal={closeModal}></Modal>
       {/* form */}
       <div className="bg-blue-400 w-3/4 mx-auto pb-10 px-10 " onSubmit={handleSend}>
         <h1 className="text-3xl text-center mt-2">form</h1>
