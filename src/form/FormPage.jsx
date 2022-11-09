@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Modal from "./modal/Modal";
-
+import style from "./modal/formpage.module.css";
 export default function FormPage() {
   // 1. create form task
   // 2. state control firstname, lastName, phoneNum, role, message
@@ -59,7 +59,6 @@ export default function FormPage() {
                 required
                 className="w-2/3 p-2 border-r-amber-300 rounded-sm border-2 text-2xl font-serif h-56"
                 onChange={(e) => {
-                  console.log(i);
                   handleChange(e, i);
                 }}
               />
@@ -70,7 +69,6 @@ export default function FormPage() {
                 type="text"
                 className="w-2/3 p-2 border-r-amber-300 rounded-sm border-2 text-2xl font-serif "
                 onChange={(e) => {
-                  console.log(i);
                   handleChange(e, i);
                 }}
               />
@@ -104,8 +102,12 @@ export default function FormPage() {
     let dispay = [];
     for (let i in state.infor) {
       dispay.push(
-        <div className="w-full flex justify-between">
-          <p>{i} </p> <span className="bg-red-100 font-serif ">{state.infor[i]}</span>
+        <div
+          // className="w-full flex justify-between"
+          className={style["paper"]}
+        >
+          <p>{i} </p>
+          <span className="bg-red-100 font-serif ">{state.infor[i]}</span>
         </div>
       );
     }
