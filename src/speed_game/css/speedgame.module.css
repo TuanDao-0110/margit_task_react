@@ -1,11 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Roboto:ital,wght@0,100;1,700;1,900&family=Signika+Negative:wght@300;400;600;700&display=swap");
 
 .main {
-    font-family: "Dancing Script", cursive;
+  font-family: "Dancing Script", cursive;
 }
 
 .main input {
   border: 2px solid red;
-    color: blue;
-    padding: 10px;
+  color: blue;
+  padding: 10px;
+  position: relative;
 }
