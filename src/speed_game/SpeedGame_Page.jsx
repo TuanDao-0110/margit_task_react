@@ -1,3 +1,4 @@
+import { type } from "@testing-library/user-event/dist/type";
 import React, { Component } from "react";
 import style from "./css/speedgame.module.css";
 import { MULTIPLY, PLUS, DIVIDE, MINUS } from "./formula/formula";
@@ -15,10 +16,11 @@ export default class SpeedGame_Page extends Component {
     scoreRatio: 1, // reflect user score as fast/difficulty ==> got more point
     userAnswer: 0, // user answer
     modal: false,
+    result: false,
   };
   // 1. set time
   // 2. press start to run
-  // 3. auto give 1 vs 2 number ==> calculate correct rersult first
+  // 3. auto give 1 vs 2 number ==> calculate correct rersult firstNum
   // 4. time run off from time default
   // 5. user have to give the answer for the QUESTION before the time run off
   // 6. user have 3 round
@@ -27,44 +29,47 @@ export default class SpeedGame_Page extends Component {
 
   // 1. calculte scoreRatio
   calculteScoreRatio = () => {
-    let { speed, numberLength, formula } = this.state;
+    let { speed, numberLength, formula } = { ...this.state };
     switch (formula) {
       case MULTIPLY:
-        this.state({ ...this.state, scoreRatio: speed * numberLength * 3 });
+        this.setState({ ...this.state, scoreRatio: speed * numberLength * 3 });
         return;
       case DIVIDE:
-        this.state({ ...this.state, scoreRatio: speed * numberLength * 3 });
+        this.setState({ ...this.state, scoreRatio: speed * numberLength * 3 });
         return;
       case MINUS:
-        this.state({ ...this.state, scoreRatio: speed * numberLength * 2 });
+        this.setState({ ...this.state, scoreRatio: speed * numberLength * 2 });
         return;
       default:
-        this.state({ ...this.state, scoreRatio: speed * numberLength });
+        this.setState({ ...this.state, scoreRatio: speed * numberLength });
         return;
     }
   };
   // 2. calculate 2 number
   calculateNumber = () => {
-    const { firstNum, secondNum, formula } = this.state;
+    console.log("calculate number");
+    const { firstNum, secondNum, formula } = { ...this.state };
     switch (formula) {
       case MULTIPLY:
-        this.state({ ...this.state, correctResult: firstNum * secondNum });
+        this.setState({ ...this.state, correctResult: firstNum * secondNum });
         return;
       case DIVIDE:
         let result = (firstNum / secondNum).toFixed(1);
-        this.state({ ...this.state, correctResult: result });
+        this.setState({ ...this.state, correctResult: result });
         return;
       case MINUS:
-        this.state({ ...this.state, correctResult: firstNum - secondNum });
+        this.setState({ ...this.state, correctResult: firstNum - secondNum });
         return;
       default:
-        this.state({ ...this.state, correctResult: firstNum + secondNum });
-        break;
+        this.setState({ ...this.state, correctResult: firstNum + secondNum });
+        // this.setState({ ...this.state, correctResult: 4 });
+        console.log(this.state);
+        return;
     }
   };
   // 3. compare user's answer vs  correctAnswer ==>
   compareResult = () => {
-    let { userAnswer, correctResult, time, round, score } = this.state;
+    let { userAnswer, correctResult, round, score } = { ...this.state };
     // compare user' answer vs correct answer
     //  function on active when the time =0
     //    3.1 check that user is correct  ?
@@ -72,19 +77,22 @@ export default class SpeedGame_Page extends Component {
       this.setState({
         ...this.state,
         score: score++,
+        result: true,
       });
     }
     // 3.2 if wrong ==> remove 1 round
     else if (userAnswer !== correctResult && round !== 0) {
       if (round !== 0) {
-        this.state({
+        this.setState({
           ...this.state,
           round: round--,
+          result: false,
         });
       } else {
-        this.state({
+        this.setState({
           ...this.state,
           modal: true,
+          result: false,
         });
       }
     }
@@ -111,28 +119,45 @@ export default class SpeedGame_Page extends Component {
   };
   // 7. generate number 2nd
   setUpNumber = () => {
-    
-    let numberLength 
-   
+    let n = this.state.numberLength;
+    let length = "1";
+    while (n > 0) {
+      n--;
+      length += "0";
+    }
+    let numberLength = Number(length) + 1;
     this.setState({
       ...this.state,
-      firstNum: Math.floor(Math.random() * numberLength) ,
+      firstNum: Math.floor(Math.random() * numberLength),
       secondNum: Math.floor(Math.random() * numberLength),
     });
   };
   // 6 submit you anwser
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log("handle submit");
+    this.calculateNumber();
+    // this.compareResult();
   };
   // 8. set up length
-  setUpNumberLength = (e)=> { 
+  setUpNumberLength = (e) => {
     this.setState({
-      ...this.state,numberLength : e.target.value
-    })
-  }
+      ...this.state,
+      numberLength: e.target.value,
+    });
+  };
+
+  //9. set up your answer :
+  setUpanswer = (e) => {
+    this.setState({ ...this.state, userAnswer: e.target.value });
+  };
+
+  //10.calculate correct result :
+
   render() {
     return (
       <div className={style["main"]}>
+        {console.log(this.state)}
         <div className="w-3/4 m-auto">
           <h1 className="text-center text-3xl text-blue-300"> speed game </h1>
           {/* game setting  */}
@@ -159,7 +184,7 @@ export default class SpeedGame_Page extends Component {
             </p>
             <button onClick={this.setUpNumber}>set up number</button>
             <p>your answer</p>
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <input
                 type="number"
                 name=""
@@ -167,13 +192,18 @@ export default class SpeedGame_Page extends Component {
                 onChange={(e) => {
                   this.setState({
                     ...this.state,
-                    userAnswer: e.target.value,
+                    userAnswer: Number(e.target.value),
                   });
                 }}
               />
               <button className="bg-blue-300 p-4 rounded-md">answer</button>
             </form>
-            {Math.round(Math.random() * 101)}
+
+            <div>
+              result : <span>{!this.state.result ? "wrong" : "true"}</span>
+              <div>correct result :{this.state.correctResult}</div>
+              <div> user answer : {this.state.userAnswer}</div>
+            </div>
           </div>
         </div>
       </div>
