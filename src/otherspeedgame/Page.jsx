@@ -6,13 +6,14 @@ export default class Page extends Component {
   state = {
     score: 0,
     active: 0,
-    time: 4,
+    confirmClick: false,
     startGame: false,
     round: 4,
     modal: false,
-    pace: 3000,
+    pace: 1000,
   };
   onClick = (key) => {
+    clearTimeout(this.temp);
     let { score: newScore, round: life } = this.state;
     if (this.state.round) {
       if (this.state.active === key) {
@@ -24,6 +25,7 @@ export default class Page extends Component {
       this.setState({
         score: newScore,
         round: life,
+        confirmClick: true,
       });
     } else {
       this.setState({
@@ -55,21 +57,34 @@ export default class Page extends Component {
   };
   setTime = (time) => {
     return setTimeout(() => {
+      let temp = this.state.round;
+      let newSpace = this.state.pace;
+      if (this.state.round > 0 && this.state.pace !== 1000 && this.state.confirmClick === false) {
+        temp--;
+      }
+      if (this.state.round === 0) {
+        this.setState({
+          modal: true,
+        });
+      }
       this.setState({
         // ...this.state,
+        pace: newSpace - 10,
+        confirmClick: false,
+        round: temp,
         active: this.generateRandomNumber(),
       });
     }, time);
   };
   temp;
+  time;
   runGame = () => {
-    if (!this.state.round) {
+    if (!this.state.modal) {
+      this.time = this.state.pace;
+
+      this.temp = this.setTime(this.time);
       return;
     }
-    this.setState({
-      round: this.state.round - 1,
-    });
-    setTimeout(this.runGame(), this.state.pace);
   };
 
   closeModal = () => {
@@ -92,6 +107,7 @@ export default class Page extends Component {
                 startGame: true,
               });
             }}
+            // disabled={!this.state.startGame}
           >
             start game
           </button>
