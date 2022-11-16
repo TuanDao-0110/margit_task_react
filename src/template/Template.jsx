@@ -50,6 +50,16 @@ export default function Template() {
                   speed game
                 </Link>
               </li>
+
+              <li>
+                <Link
+                  to="/other"
+                  className="block text-2xl hover:text-blue-300 py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-white dark:bg-blue-600 md:dark:bg-transparent"
+                  aria-current="page"
+                >
+                 other speed game
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

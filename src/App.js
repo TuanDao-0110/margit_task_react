@@ -6,6 +6,7 @@ import Template from './template/Template'
 import Pokemon from './pokemon_project/Pokemon'
 import FormPage from './form/FormPage'
 import SpeedGame from './speed_game/SpeedGame_Page'
+import Page from './otherspeedgame/Page'
 // import styles from './Counter.module.css'
 export default function App() {
   // const useSelector(state => state)
@@ -18,7 +19,7 @@ export default function App() {
         <Route path='pokemon' element={<Pokemon></Pokemon>}></Route>
         <Route path='formtask' element={<FormPage></FormPage>}></Route>
         <Route path='speedgame' element={<SpeedGame></SpeedGame>}></Route>
-
+        <Route path='other' element={<Page></Page>}></Route>
       </Route>
 
     </Routes>
