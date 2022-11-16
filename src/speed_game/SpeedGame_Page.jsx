@@ -3,6 +3,7 @@ import Modal from "./modal/Modal";
 import React, { Component } from "react";
 import style from "./css/speedgame.module.css";
 import { MULTIPLY, PLUS, DIVIDE, MINUS } from "./formula/formula";
+import Time from "./Time";
 export default class SpeedGame_Page extends Component {
   state = {
     time: 5, // default time
@@ -43,27 +44,30 @@ export default class SpeedGame_Page extends Component {
         this.setState({ ...this.state, scoreRatio: speed * numberLength * 2 });
         return;
       default:
-        this.setState({ ...this.state, scoreRatio: speed * numberLength });
+        this.setState({
+          // ...this.state,
+          scoreRatio: speed * numberLength,
+        });
         return;
     }
   };
   // 2. calculate 2 number
   calculateNumber = () => {
     console.log("calculate number");
-    const { firstNum, secondNum, formula } = { ...this.state };
-    switch (formula) {
+    // const { firstNum, secondNum, formula } = { ...this.state };
+    switch (this.state.formula) {
       case MULTIPLY:
-        this.setState({ ...this.state, correctResult: firstNum * secondNum });
+        // this.setState({ correctResult: firstNum * secondNum });
         return;
       case DIVIDE:
-        let result = Math.floor(firstNum / secondNum);
-        this.setState({ ...this.state, correctResult: result });
+        // let result = Math.floor(firstNum / secondNum);
+        // this.setState({ correctResult: result });
         return;
       case MINUS:
-        this.setState({ ...this.state, correctResult: firstNum - secondNum });
+        // this.setState({ correctResult: firstNum - secondNum });
         return;
       default:
-        this.setState({ ...this.state, correctResult: firstNum + secondNum });
+        this.setState({ correctResult: this.state.firstNum + this.state.secondNum });
         // this.setState({ ...this.state, correctResult: 4 });
         console.log(this.state);
         return;
@@ -73,36 +77,35 @@ export default class SpeedGame_Page extends Component {
   // otherwise it will return stop game ==> return modal
   compareResult = () => {
     console.log("compare");
-    let { userAnswer, correctResult, round, score, result } = { ...this.state };
+    // let { userAnswer, correctResult, round, score, result } = { ...this.state };
     // compare user' answer vs correct answer
     //  function on active when the time =0
     //    3.1 check that user is correct  ?
-    if (userAnswer === correctResult) {
-      let temp = score;
-      temp++;
+    console.log(this.state);
+    if (this.state.userAnswer === this.state.correctResult) {
+      let { score: temp } = this.state;
+      temp = temp + 1;
       this.setState({
-        // ...this.state,
         score: temp,
         result: true,
         time: 5,
       });
-      this.setUpNumber();
+      return this.setUpNumber();
     }
     // 3.2 if wrong ==> remove 1 round
-    else if (userAnswer !== correctResult) {
-      if (round !== 0) {
-        let temp = round;
-        temp--;
+    else if (this.state.userAnswer !== this.state.correctResult) {
+      if (this.state.round !== 0) {
+        let { round: temp } = this.state;
+        temp = temp - 1;
         this.setState({
-          ...this.state,
           round: temp,
           result: false,
           time: 5,
         });
-        this.setUpNumber();
+        return this.setUpNumber();
       } else {
-        this.setState({
-          ...this.state,
+        return this.setState({
+          // ...this.state,
           modal: true,
           result: false,
           startGame: false,
@@ -116,7 +119,10 @@ export default class SpeedGame_Page extends Component {
     let { time } = this.state;
     if (time >= 0) {
       setTimeout(() => {
-        this.setState({ ...this.state, time: time - 1 });
+        this.setState({
+          // ...this.state,
+          time: time - 1,
+        });
       }, setSpeed);
     } else {
       this.compareResult();
@@ -126,7 +132,7 @@ export default class SpeedGame_Page extends Component {
   //5. set speed :
   setSpeed = (e) => {
     this.setState({
-      ...this.state,
+      // ...this.state,
       speed: e.target.value,
     });
   };
@@ -152,13 +158,13 @@ export default class SpeedGame_Page extends Component {
   // 8. set up length
   setUpNumberLength = (e) => {
     this.setState({
-      ...this.state,
+      // ...this.state,
       numberLength: e.target.value,
     });
   };
 
   //9. set up your answer :
-  setUpanswer = (e) => this.setState({ ...this.state, userAnswer: e.target.value });
+  setUpanswer = (e) => this.setState({ userAnswer: e.target.value });
 
   // 10. set start/stop function :
   start = () => {
@@ -173,7 +179,7 @@ export default class SpeedGame_Page extends Component {
   };
   // 11.
   setUp = () => {
-    let { time, startGame, score } = this.state;
+    let { startGame } = this.state;
     if (startGame) {
       this.countDown();
     }
@@ -184,6 +190,7 @@ export default class SpeedGame_Page extends Component {
       modal: false,
     });
   };
+
   render() {
     return (
       <div className={style["main"]}>
@@ -194,7 +201,8 @@ export default class SpeedGame_Page extends Component {
           <div>
             <div>
               Time
-              <p>{this.state.time}</p>
+              {/* <p>{this.state.time}</p> */}
+              <Time time={this.state.time}></Time>
               speed <p>{this.state.speed}</p>
             </div>
 
@@ -226,14 +234,12 @@ export default class SpeedGame_Page extends Component {
                 id=""
                 onChange={(e) => {
                   this.setState({
-                    ...this.state,
+                    // ...this.state,
                     userAnswer: Number(e.target.value),
                   });
                 }}
               />
-              <button className="bg-blue-300 p-4 rounded-md" onClick={() => {}}>
-                answer
-              </button>
+              <button className="bg-blue-300 p-4 rounded-md">answer</button>
             </form>
             <div>
               result : <span>{!this.state.result ? "wrong" : "true"}</span>
