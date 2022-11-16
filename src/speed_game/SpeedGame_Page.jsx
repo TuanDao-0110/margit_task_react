@@ -81,11 +81,12 @@ export default class SpeedGame_Page extends Component {
       let temp = score;
       temp++;
       this.setState({
-        ...this.state,
+        // ...this.state,
         score: temp,
         result: true,
         time: 5,
       });
+      this.setUpNumber();
     }
     // 3.2 if wrong ==> remove 1 round
     else if (userAnswer !== correctResult) {
@@ -98,6 +99,7 @@ export default class SpeedGame_Page extends Component {
           result: false,
           time: 5,
         });
+        this.setUpNumber();
       } else {
         this.setState({
           ...this.state,
@@ -138,7 +140,7 @@ export default class SpeedGame_Page extends Component {
     }
     let numberLength = Number(length) + 1;
     this.setState({
-      ...this.state,
+      // ...this.state,
       firstNum: Math.floor(Math.random() * numberLength),
       secondNum: Math.floor(Math.random() * numberLength),
     });
@@ -229,12 +231,7 @@ export default class SpeedGame_Page extends Component {
                   });
                 }}
               />
-              <button
-                className="bg-blue-300 p-4 rounded-md"
-                onClick={() => {
-                  // this.compareResult();
-                }}
-              >
+              <button className="bg-blue-300 p-4 rounded-md" onClick={() => {}}>
                 answer
               </button>
             </form>
