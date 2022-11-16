@@ -16,6 +16,7 @@ export default class Page extends Component {
     if (this.state.round) {
       if (this.state.active === key) {
         newScore++;
+        life++;
       } else {
         life--;
       }
@@ -32,19 +33,25 @@ export default class Page extends Component {
 
   renderCircles = () => {
     return cicrle.map((item, index) => {
-      return <Circle key={index} value={item} onClick={this.onClick} gamestart = {this.state.startGame} active={this.state.active}></Circle>;
+      return <Circle key={index} value={item} onClick={this.onClick} gamestart={this.state.startGame} active={this.state.active}></Circle>;
     });
   };
-
+  generateRandomNumber = () => {
+    let temp = Math.floor(Math.random() * 3) + 1;
+    while (temp === this.state.active) {
+      temp = Math.floor(Math.random() * 3) + 1;
+    }
+    return temp;
+  };
   runGame = () => {
-    let n = 4;
     if (!this.state.modal) {
       setTimeout(() => {
         this.setState({
           ...this.state,
-          active: Math.floor(Math.random() * 3) + 1,
+          active: this.generateRandomNumber(),
         });
-      }, 1000);
+      }, 2000);
+      
     }
   };
   closeModal = () => {

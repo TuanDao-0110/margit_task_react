@@ -168,6 +168,7 @@ export default class SpeedGame_Page extends Component {
 
   // 10. set start/stop function :
   start = () => {
+   
     this.setState({
       startGame: true,
     });
@@ -232,6 +233,7 @@ export default class SpeedGame_Page extends Component {
                 type="number"
                 name=""
                 id=""
+                min={0}
                 onChange={(e) => {
                   this.setState({
                     // ...this.state,
