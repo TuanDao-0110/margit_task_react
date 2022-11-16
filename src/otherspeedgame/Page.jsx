@@ -5,11 +5,12 @@ const cicrle = [1, 2, 3, 4];
 export default class Page extends Component {
   state = {
     score: 0,
-    active: 1,
+    active: 0,
     time: 4,
     startGame: false,
     round: 4,
     modal: false,
+    pace: 3000,
   };
   onClick = (key) => {
     let { score: newScore, round: life } = this.state;
@@ -30,34 +31,48 @@ export default class Page extends Component {
       });
     }
   };
-
   renderCircles = () => {
     return cicrle.map((item, index) => {
       return <Circle key={index} value={item} onClick={this.onClick} gamestart={this.state.startGame} active={this.state.active}></Circle>;
     });
   };
+  getRndInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
   generateRandomNumber = () => {
-    let temp = Math.floor(Math.random() * 3) + 1;
+    let temp = this.getRndInt(1, 4);
     while (temp === this.state.active) {
-      temp = Math.floor(Math.random() * 3) + 1;
+      temp = this.getRndInt(1, 4);
     }
     return temp;
   };
-  runGame = () => {
-    if (!this.state.modal) {
-      setTimeout(() => {
-        this.setState({
-          ...this.state,
-          active: this.generateRandomNumber(),
-        });
-      }, 2000);
-      
-    }
-  };
-  closeModal = () => {
+  moveRound = () => {
     this.setState({
-      modal: false,
+      round: this.state.round - 1,
     });
+  };
+  setTime = (time) => {
+    return setTimeout(() => {
+      this.setState({
+        // ...this.state,
+        active: this.generateRandomNumber(),
+      });
+    }, time);
+  };
+  temp;
+  runGame = () => {
+    if (!this.state.round) {
+      return;
+    }
+    this.setState({
+      round: this.state.round - 1,
+    });
+    setTimeout(this.runGame(), this.state.pace);
+  };
+
+  closeModal = () => {
     window.location.reload();
   };
   render() {
@@ -69,16 +84,18 @@ export default class Page extends Component {
           Round : <span className="text-2xl"> {this.state.round}</span>
           {this.state.startGame ? this.runGame() : ""}
         </div>
-        <button
-          className="text-center"
-          onClick={() => {
-            this.setState({
-              startGame: true,
-            });
-          }}
-        >
-          start game
-        </button>
+        <div className="flex justify-center">
+          <button
+            className="bg-blue-200 p-7 rounded-md text-3xl mt-5 hover:bg-blue-700 delay-700 transition-all"
+            onClick={() => {
+              this.setState({
+                startGame: true,
+              });
+            }}
+          >
+            start game
+          </button>
+        </div>
         <Modal modal={this.state.modal} closeModal={this.closeModal} score={this.state.score}></Modal>
       </div>
     );
