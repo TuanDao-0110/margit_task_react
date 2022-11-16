@@ -4,6 +4,8 @@ import React, { Component } from "react";
 import style from "./css/speedgame.module.css";
 import { MULTIPLY, PLUS, DIVIDE, MINUS } from "./formula/formula";
 import Time from "./Time";
+
+const options = [MULTIPLY, PLUS, DIVIDE, MINUS];
 export default class SpeedGame_Page extends Component {
   state = {
     time: 5, // default time
@@ -76,12 +78,11 @@ export default class SpeedGame_Page extends Component {
   // 3. compare user's answer vs  correctAnswer ==> it compare vs set time back to 5 if user still have round/correct -
   // otherwise it will return stop game ==> return modal
   compareResult = () => {
-    console.log("compare");
     // let { userAnswer, correctResult, round, score, result } = { ...this.state };
     // compare user' answer vs correct answer
     //  function on active when the time =0
     //    3.1 check that user is correct  ?
-    console.log(this.state);
+    // clearTimeout(this.temp);
     if (this.state.userAnswer === this.state.correctResult) {
       let { score: temp } = this.state;
       temp = temp + 1;
@@ -90,7 +91,7 @@ export default class SpeedGame_Page extends Component {
         result: true,
         time: 5,
       });
-      return this.setUpNumber();
+      // return this.setUpNumber();
     }
     // 3.2 if wrong ==> remove 1 round
     else if (this.state.userAnswer !== this.state.correctResult) {
@@ -102,7 +103,7 @@ export default class SpeedGame_Page extends Component {
           result: false,
           time: 5,
         });
-        return this.setUpNumber();
+        // return this.setUpNumber();
       } else {
         return this.setState({
           // ...this.state,
@@ -114,19 +115,22 @@ export default class SpeedGame_Page extends Component {
     }
   };
   //4. time count down   ==> also compare auto when it turn 0 ==> move to the next if player answers correct
+  temp;
+
   countDown = () => {
     let setSpeed = (1000 / this.state.speed).toFixed(0);
     let { time } = this.state;
-    if (time >= 0) {
-      setTimeout(() => {
+    if (time > 0) {
+      this.temp = setTimeout(() => {
         this.setState({
           // ...this.state,
           time: time - 1,
         });
       }, setSpeed);
-    } else {
-      this.compareResult();
     }
+    // else {
+    //   this.compareResult();
+    // }
   };
 
   //5. set speed :
@@ -168,7 +172,7 @@ export default class SpeedGame_Page extends Component {
 
   // 10. set start/stop function :
   start = () => {
-   
+    this.setUpNumber();
     this.setState({
       startGame: true,
     });
@@ -190,8 +194,44 @@ export default class SpeedGame_Page extends Component {
     this.setState({
       modal: false,
     });
+    window.location.reload();
+  };
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.firstNum !== this.state.firstNum || prevState.secondNum !== this.state.secondNum) {
+      console.log("did update calculate number");
+      this.calculateNumber();
+    }
+    if (this.state.time === 0 && this.state.round >= 0 && !this.state.modal) {
+      console.log("compare result did update");
+      clearTimeout(this.temp);
+      this.compareResult();
+    }
+    if ((this.state.score === prevState.score || this.state.round === prevState.round) && prevState.time === 0 && this.state.modal === false) {
+      console.log("set up new number didupdate");
+      // this.setUpNumber();
+    }
+  }
+  // change formula
+  handleChangeFormula = (e) => {
+    console.log(e.target.value);
+    this.setState({
+      formula: e.target.value,
+    });
   };
 
+  // render formula :
+  renderFormula = () => {
+    switch (this.state.formula) {
+      case PLUS:
+        return "+";
+      case MULTIPLY:
+        return "*";
+      case DIVIDE:
+        return "/";
+      default:
+        return "-";
+    }
+  };
   render() {
     return (
       <div className={style["main"]}>
@@ -209,11 +249,12 @@ export default class SpeedGame_Page extends Component {
 
             <div>
               <label htmlFor="">set speed</label>
-              <input type="number" onChange={this.setSpeed} />
+              <input type="number" onChange={this.setSpeed} disabled={this.state.startGame} />
             </div>
             <div>
               <label htmlFor="">set up number length</label>
               <input
+                disabled={this.state.startGame}
                 type="number"
                 onChange={(e) => {
                   this.setUpNumberLength(e);
@@ -221,10 +262,28 @@ export default class SpeedGame_Page extends Component {
               />
             </div>
           </div>
-          {/* game display includes  formula vs user input  */}
+          <div>
+            <select
+              defaultValue={this.state.formula}
+              disabled={this.state.startGame}
+              className="w-2/3 p-2 border-r-amber-300 rounded-sm border-2 text-2xl font-serif text-center capitalize"
+              onChange={(e) => {
+                this.handleChangeFormula(e);
+              }}
+            >
+              {options.map((item, index) => {
+                return (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+            {/* game display includes  formula vs user input  */}
+          </div>
           <div>
             <p>
-              {this.state.firstNum} + {this.state.secondNum} = {this.state.time !== 0 ? "?" : this.state.correctResult}
+              {this.state.firstNum} {this.renderFormula()} {this.state.secondNum}
             </p>
             <button onClick={this.setUpNumber}>set up number</button>
             <p>your answer</p>
