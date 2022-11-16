@@ -32,7 +32,7 @@ export default class Page extends Component {
 
   renderCircles = () => {
     return cicrle.map((item, index) => {
-      return <Circle key={index} value={item} onClick={this.onClick} active={this.state.active}></Circle>;
+      return <Circle key={index} value={item} onClick={this.onClick} gamestart = {this.state.startGame} active={this.state.active}></Circle>;
     });
   };
 

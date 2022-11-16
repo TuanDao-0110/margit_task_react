@@ -1,7 +1,7 @@
 import React from "react";
 import style from "../css/modal.module.css";
 export default function Modal(props) {
-  const { modal, closeModal, score } = props;
+  const { modal, closeModal, score, } = props;
 
   console.log(props);
   if (modal) {
