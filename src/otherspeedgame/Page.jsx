@@ -1,6 +1,17 @@
 import React, { Component } from "react";
 import Modal from "./modal/Modal";
 import Circle from "./Circle";
+import start from "./sound/click.mp3";
+import clicky from "./sound/clicky.mp3";
+import error from "./sound/error.mp3";
+import layout from "./sound/layout.mp3";
+// import { bounce } from "react-animations";
+import "animate.css";
+
+let startSound = new Audio(start);
+let click = new Audio(clicky);
+let errorSound = new Audio(error);
+let layoutSound = new Audio(layout);
 const cicrle = [1, 2, 3, 4];
 export default class Page extends Component {
   state = {
@@ -17,9 +28,13 @@ export default class Page extends Component {
     let { score: newScore, round: life } = this.state;
     if (this.state.round) {
       if (this.state.active === key) {
+        click.currentTime = 0;
+        click.play();
         newScore++;
         life++;
       } else {
+        errorSound.currentTime = 0;
+        errorSound.play();
         life--;
       }
       this.setState({
@@ -50,11 +65,7 @@ export default class Page extends Component {
     }
     return temp;
   };
-  moveRound = () => {
-    this.setState({
-      round: this.state.round - 1,
-    });
-  };
+
   setTime = (time) => {
     return setTimeout(() => {
       let temp = this.state.round;
@@ -81,7 +92,9 @@ export default class Page extends Component {
   runGame = () => {
     if (!this.state.modal) {
       this.time = this.state.pace;
-
+      if (!layoutSound.played) {
+        layoutSound.play();
+      }
       this.temp = this.setTime(this.time);
       return;
     }
@@ -90,10 +103,12 @@ export default class Page extends Component {
   closeModal = () => {
     window.location.reload();
   };
+  componentDidUpdate(prevprop, prevState) {}
   render() {
     return (
-      <div className="relative">
-        <div className="flex w-3/4 mx-auto justify-between mt-10">{this.renderCircles()}</div>
+      <div className="relative animate__animated  animate__rotateIn min-h-screen flex flex-col justify-evenly">
+        {this.state.modal && layoutSound.pause()}
+        <div className="flex w-full mx-auto justify-around mt-10">{this.renderCircles()}</div>
         <div className="text-center">
           Score : <span className="text-2xl"> {this.state.score}</span>
           Round : <span className="text-2xl"> {this.state.round}</span>
@@ -103,6 +118,8 @@ export default class Page extends Component {
           <button
             className="bg-blue-200 p-7 rounded-md text-3xl mt-5 hover:bg-blue-700 delay-700 transition-all"
             onClick={() => {
+              startSound.play();
+              layoutSound.play();
               this.setState({
                 startGame: true,
               });

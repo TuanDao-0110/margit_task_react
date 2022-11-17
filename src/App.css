@@ -2,3 +2,7 @@
 * {
   font-family: "Dancing Script", cursive;
 }
+
+.animate__animated  {
+  --animate-duration: 1s;
+}

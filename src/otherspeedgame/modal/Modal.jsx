@@ -1,9 +1,13 @@
 import React from "react";
 import style from "../css/modal.module.css";
+import losing from "../sound/losing.mp3";
+let losingSound = new Audio(losing);
 export default function Modal(props) {
   const { modal, closeModal, score } = props;
 
   if (modal) {
+    losingSound.currentTime = 0;
+    losingSound.play();
     return (
       <div className={style["bg"]}>
         <div
