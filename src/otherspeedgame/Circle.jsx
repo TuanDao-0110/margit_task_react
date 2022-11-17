@@ -1,6 +1,6 @@
 import React from "react";
 import style from "../otherspeedgame/css/Circle.module.css";
-export default function Circle(props) {
+function Circle(props) {
   const { value, onClick, active, gamestart } = props;
   return (
     <div
@@ -11,7 +11,9 @@ export default function Circle(props) {
         }
       }}
     >
-      cirlc
+      circle
     </div>
   );
 }
+
+export default React.memo(Circle);

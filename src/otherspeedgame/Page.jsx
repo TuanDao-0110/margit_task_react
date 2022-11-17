@@ -24,7 +24,6 @@ export default class Page extends Component {
     pace: 1000,
   };
   onClick = (key) => {
-    clearTimeout(this.temp);
     let { score: newScore, round: life } = this.state;
     if (this.state.round) {
       if (this.state.active === key) {
@@ -38,6 +37,7 @@ export default class Page extends Component {
         life--;
       }
       this.setState({
+        ...this.state,
         score: newScore,
         round: life,
         confirmClick: true,
@@ -85,6 +85,7 @@ export default class Page extends Component {
         round: temp,
         active: this.generateRandomNumber(),
       });
+      clearTimeout(this.temp);
     }, time);
   };
   temp;
@@ -103,18 +104,25 @@ export default class Page extends Component {
   closeModal = () => {
     window.location.reload();
   };
-  componentDidUpdate(prevprop, prevState) {}
+  componentDidUpdate(prevprop, prevState) {
+    if (prevState.active !== this.state.active) {
+      console.log("did update");
+      // clearTimeout(this.temp);
+    }
+  }
+
   render() {
     return (
-      <div className="relative animate__animated  animate__rotateIn min-h-screen flex flex-col justify-evenly">
+      <div className="relative animate__animated  animate__rotateIn min-h-screen flex flex-col justify-evenly ">
         {this.state.modal && layoutSound.pause()}
         <div className="flex w-full mx-auto justify-around mt-10">{this.renderCircles()}</div>
-        <div className="text-center">
-          Score : <span className="text-2xl"> {this.state.score}</span>
-          Round : <span className="text-2xl"> {this.state.round}</span>
+        <div className="text-center space-x-5">
+          Score : <span className="text-6xl text-green-500"> {this.state.score}</span>
+          Round : <span className="text-6xl text-green-500"> {this.state.round}</span>
+          {console.log("render")}
           {this.state.startGame ? this.runGame() : ""}
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center space-x-3 capitalize">
           <button
             className="bg-blue-200 p-7 rounded-md text-3xl mt-5 hover:bg-blue-700 delay-700 transition-all"
             onClick={() => {
@@ -127,6 +135,15 @@ export default class Page extends Component {
             // disabled={!this.state.startGame}
           >
             start game
+          </button>
+          <button
+            className="bg-blue-200 p-7 rounded-md text-3xl mt-5 hover:bg-blue-700 delay-700 transition-all"
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            {" "}
+            stop game
           </button>
         </div>
         <Modal modal={this.state.modal} closeModal={this.closeModal} score={this.state.score}></Modal>
