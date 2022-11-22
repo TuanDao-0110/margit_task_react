@@ -1,8 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Roboto:ital,wght@0,100;1,700;1,900&family=Signika+Negative:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Roboto:ital,wght@0,100;1,700;1,900&family=Signika+Negative:wght@300;400;600;700&display=swap");
 * {
   font-family: "Dancing Script", cursive;
+  font-family: "Roboto", sans-serif;
+  font-family: "Signika Negative", sans-serif;
 }
 
-.animate__animated  {
+.animate__animated {
   --animate-duration: 1s;
 }
