@@ -7,7 +7,7 @@ export default function Modal(props) {
     return (
       <div className={style["bg"]}>
         <div
-          className="relative"
+          className="relative h-full"
 
           // onClick={closeModal}
         >

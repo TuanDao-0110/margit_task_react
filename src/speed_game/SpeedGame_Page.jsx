@@ -7,7 +7,9 @@ import Time from "./Time";
 import Round from "./Round";
 import CountUpNumber from "./CountUpNumber";
 import Button from "@mui/material/Button";
+import countdown from "./mp3/countdown.mp3";
 
+let newcountdown = new Audio(countdown);
 const options = [MULTIPLY, PLUS];
 const speedOptions = [1, 2, 3, 4];
 const numberLenghtOptions = [1, 2, 3, 4];
@@ -27,6 +29,7 @@ export default class SpeedGame_Page extends Component {
     modal: false,
     result: false,
     startGame: false,
+    submitDisable: false,
   };
   // 1. set time
   // 2. press start to run
@@ -94,9 +97,11 @@ export default class SpeedGame_Page extends Component {
       let { score: temp } = this.state;
       temp = temp + this.state.scoreRatio;
       return this.setState({
+        ...this.state,
         score: temp,
         result: true,
         time: 5,
+        submitDisable: false,
       });
     }
     // 3.2 if wrong ==> remove 1 round
@@ -105,17 +110,20 @@ export default class SpeedGame_Page extends Component {
         let { round: temp } = this.state;
         temp = temp - 1;
         return this.setState({
+          ...this.state,
           round: temp,
           result: false,
           time: 5,
+          submitDisable: false,
         });
         // return this.setUpNumber();
       } else {
         return this.setState({
-          // ...this.state,
+          ...this.state,
           modal: true,
           result: false,
           startGame: false,
+          submitDisable: false,
         });
       }
     }
@@ -134,9 +142,6 @@ export default class SpeedGame_Page extends Component {
         });
       }, setSpeed);
     }
-    // else {
-    //   this.compareResult();
-    // }
   };
 
   //5. set speed :
@@ -160,16 +165,17 @@ export default class SpeedGame_Page extends Component {
       firstNum: Math.floor(Math.random() * numberLength),
       secondNum: Math.floor(Math.random() * numberLength),
     });
-    console.log("set up -> ");
-    console.log(this.state);
   };
   // 6 submit you anwser
   handleSubmit = (e) => {
     e.preventDefault();
     for (let i of e.target) {
-      if (i.value) {
+      if (i.value && this.state.time > 0) {
         this.setState({
+          ...this.state,
+          // Time: 5,
           userAnswer: Number(i.value),
+          submitDisable: true,
         });
       }
     }
@@ -212,12 +218,11 @@ export default class SpeedGame_Page extends Component {
     window.location.reload();
   };
   componentDidUpdate(prevProps, prevState) {
-    if ((this.state.time === 0 && prevState.time === 1 && !this.state.modal) || this.state.userAnswer !== prevState.userAnswer) {
-      console.log("did update calculate number");
+    if ((this.state.time === 1 && prevState.time === 2 && !this.state.modal) || this.state.userAnswer !== prevState.userAnswer) {
       clearTimeout(this.temp);
+      console.log("did update calculate number");
       this.calculateNumber();
-    }
-    if (
+    } else if (
       prevState.time === 1 &&
       this.state.time === 0 &&
       this.state.startGame &&
@@ -226,8 +231,7 @@ export default class SpeedGame_Page extends Component {
       console.log("compare result did update");
       clearTimeout(this.temp);
       this.compareResult();
-    }
-    if (
+    } else if (
       (this.state.score !== prevState.score || this.state.round !== prevState.round) &&
       prevState.time === 0 &&
       this.state.time === 5 &&
@@ -235,8 +239,7 @@ export default class SpeedGame_Page extends Component {
     ) {
       console.log("set up new number didupdate");
       this.setUpNumber();
-    }
-    if (this.state.formula !== prevState.formula) {
+    } else if (this.state.formula !== prevState.formula) {
       this.calculteScoreRatio();
     }
   }
@@ -245,7 +248,6 @@ export default class SpeedGame_Page extends Component {
     this.setState({
       formula: e.target.value,
     });
-    console.log(e.target.value);
   };
 
   // render formula :
@@ -375,20 +377,20 @@ export default class SpeedGame_Page extends Component {
                 placeholder="Your anwser"
                 className="w-80"
                 onChange={(e) => {
-                  this.setState({
-                    // ...this.state,
-                    // userAnswer: Number(e.target.value),
-                  });
+                  // this.setState({
+                  // ...this.state,
+                  // userAnswer: Number(e.target.value),
+                  // });
                 }}
               />
               {/* <button className="bg-blue-300 p-4 rounded-md">answer</button> */}
-              <Button variant="outlined" type="submit">
+              <Button variant="contained" color="success" type="submit" disabled={this.state.submitDisable} className="animate-pulse">
                 answer{" "}
               </Button>
             </form>
             <div className="text-center">
               <p className="text-4xl my-5 ">
-                your score : <span className="text-green-700">{this.state.score}</span>
+                your score : <span className="text-green-700 text-7xl">{this.state.score}</span>
               </p>
               <Button
                 disabled={this.state.startGame}
