@@ -16,7 +16,7 @@ function Time(props) {
   const { value } = props;
   return (
     <Box sx={{ position: "relative", display: "inline-flex", width: "200px", height: "200px" }}>
-      {console.log("render time " + value)}
+      {/* {console.log("render time " + value)} */}
       <CircularProgress variant="determinate" {...props} size={200} color={`${value > 50 ? "primary" : "warning"}`} />
       <Box
         sx={{

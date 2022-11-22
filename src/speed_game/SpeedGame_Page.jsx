@@ -63,12 +63,12 @@ export default class SpeedGame_Page extends Component {
   };
   // 2. calculate 2 number
   calculateNumber = () => {
-    console.log("calculate number");
+    // console.log("calculate number");
     // const { firstNum, secondNum, formula } = { ...this.state };
     switch (this.state.formula) {
       case MULTIPLY:
         this.setState({ correctResult: this.state.firstNum * this.state.secondNum });
-        console.log(this.state);
+        // console.log(this.state);
         return;
       case DIVIDE:
         // let result = Math.floor(firstNum / secondNum);
@@ -81,7 +81,7 @@ export default class SpeedGame_Page extends Component {
         let temp = this.state.firstNum + this.state.secondNum;
         // this.setState({ correctResult: temp });
         this.setState({ ...this.state, correctResult: temp });
-        console.log(this.state);
+        // console.log(this.state);
         return;
     }
   };
@@ -159,11 +159,11 @@ export default class SpeedGame_Page extends Component {
       n--;
       length += "0";
     }
-    let numberLength = Number(length) + 1;
+    let numberLength = Number(length);
     this.setState({
       // ...this.state,
-      firstNum: Math.floor(Math.random() * numberLength),
-      secondNum: Math.floor(Math.random() * numberLength),
+      firstNum: Math.round(Math.random() * numberLength),
+      secondNum: Math.round(Math.random() * numberLength),
     });
   };
   // 6 submit you anwser
@@ -194,6 +194,7 @@ export default class SpeedGame_Page extends Component {
   // 10. set start/stop function :
   start = () => {
     this.setUpNumber();
+    this.calculteScoreRatio();
     this.setState({
       startGame: true,
     });
@@ -220,7 +221,7 @@ export default class SpeedGame_Page extends Component {
   componentDidUpdate(prevProps, prevState) {
     if ((this.state.time === 1 && prevState.time === 2 && !this.state.modal) || this.state.userAnswer !== prevState.userAnswer) {
       clearTimeout(this.temp);
-      console.log("did update calculate number");
+      // console.log("did update calculate number");
       this.calculateNumber();
     } else if (
       prevState.time === 1 &&
@@ -228,7 +229,6 @@ export default class SpeedGame_Page extends Component {
       this.state.startGame &&
       (this.state.score === prevState.score || this.state.round === prevState.round)
     ) {
-      console.log("compare result did update");
       clearTimeout(this.temp);
       this.compareResult();
     } else if (
@@ -237,10 +237,9 @@ export default class SpeedGame_Page extends Component {
       this.state.time === 5 &&
       this.state.modal === false
     ) {
-      console.log("set up new number didupdate");
+      // console.log("set up new number didupdate");
       this.setUpNumber();
     } else if (this.state.formula !== prevState.formula) {
-      this.calculteScoreRatio();
     }
   }
   // change formula
