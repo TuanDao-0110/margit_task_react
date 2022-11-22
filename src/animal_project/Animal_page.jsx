@@ -51,7 +51,7 @@ export default class Animal_page extends Component {
       <div className="bg-stone-500">
         <div className="flex justify-center hover:scale-125 transition-all duration-150 ">
           <button
-            className="text-4xl bg-teal-400 my-5 rounded-md p-5 text-center "
+            className="text-4xl bg-orange-400 my-5 rounded-md p-5 text-center "
             onClick={() => {
               this.setState({
                 type: !this.state.type,
