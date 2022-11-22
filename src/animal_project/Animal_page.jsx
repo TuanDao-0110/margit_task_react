@@ -5,7 +5,7 @@ export default class Animal_page extends Component {
   state = {
     specie: birds,
     type: false,
-    load: 5,
+    load: 6,
   };
   likeFn = (name) => {
     let index = this.state.specie.findIndex((item) => item.name === name);
@@ -43,30 +43,31 @@ export default class Animal_page extends Component {
   };
   loadMore = () => {
     this.setState({
-      load: this.state.load + 2,
+      load: this.state.load + 3,
     });
   };
   render() {
     return (
-      <div>
-        <button
-          className="text-4xl bg-teal-400 rounded-md p-5"
-          onClick={() => {
-            this.setState({
-              type: !this.state.type,
-            });
-            this.state.type
-              ? this.setState({
-                  specie: birds,
-                })
-              : this.setState({
-                  specie: animals,
-                });
-          }}
-        >
-          {" "}
-          switch{" "}
-        </button>
+      <div className="bg-stone-500">
+        <div className="flex justify-center hover:scale-125 transition-all duration-150 ">
+          <button
+            className="text-4xl bg-teal-400 my-5 rounded-md p-5 text-center "
+            onClick={() => {
+              this.setState({
+                type: !this.state.type,
+              });
+              this.state.type
+                ? this.setState({
+                    specie: birds,
+                  })
+                : this.setState({
+                    specie: animals,
+                  });
+            }}
+          >
+            switch between animal vs bird
+          </button>
+        </div>
         <h1 className="text-center text-lime-800 text-5xl">This is {!this.state.type ? "bird" : "animals"} project</h1>
         <h2 className="text-center text-lime-300 text-2xl">Animal : {this.state.specie.length} </h2>
         <div className="flex justify-center">
@@ -79,6 +80,16 @@ export default class Animal_page extends Component {
           ></input>
         </div>
         {this.renderedCard()}
+        <div className="flex justify-center  ">
+          <button
+            className="text-2xl animate-pulse duration-75 bg-slate-400 p-5 rounded-lg my-5"
+            onClick={() => {
+              this.loadMore();
+            }}
+          >
+            load more
+          </button>
+        </div>
       </div>
     );
   }

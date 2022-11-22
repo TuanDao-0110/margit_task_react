@@ -13,7 +13,7 @@ export default class Card extends Component {
         {/* <img src={require(`${this.imgSrc}bird`)} /> */}
         <img src={`https://source.unsplash.com/500x400/?${name}`} alt=""></img>
         <div className={style["details"]}>
-          <h2 className="text-center text-6xl ">{name ? name : "name not found"}</h2>
+          <h2 className="text-center text-3xl ">{name ? name : "name not found"}</h2>
           <button
             className={style["quit"]}
             onClick={() => {
@@ -22,7 +22,7 @@ export default class Card extends Component {
           >
             X
           </button>
-          <div className="flex w-10/12 m-auto justify-around bg-blue-100  text-4xl  mb-2 p-2">
+          <div className="flex w-10/12 mx-auto justify-between bg-blue-100  text-4xl rounded-md p-3 ">
             <span>
               <button
                 onClick={() => {
