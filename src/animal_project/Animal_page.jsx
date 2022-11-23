@@ -46,6 +46,7 @@ export default class Animal_page extends Component {
       load: this.state.load + 3,
     });
   };
+
   render() {
     return (
       <div className="bg-stone-500">

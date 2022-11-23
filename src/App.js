@@ -7,6 +7,7 @@ import Pokemon from './pokemon_project/Pokemon'
 import FormPage from './form/FormPage'
 import SpeedGame from './speed_game/SpeedGame_Page'
 import Page from './otherspeedgame/Page'
+import PokemonDetails from './pokemon_project/PokemonDetails'
 // import styles from './Counter.module.css'
 export default function App() {
   // const useSelector(state => state)
@@ -14,14 +15,16 @@ export default function App() {
   return (
     <Routes>
       <Route path='/' element={<Template></Template>}>
-
         <Route path='animal' element={<AnimalPage></AnimalPage>}></Route>
-        <Route path='pokemon' element={<Pokemon></Pokemon>}></Route>
+        <Route path='pokemon' >
+          <Route index element={<Pokemon></Pokemon>} />
+          <Route path=':id' element={<PokemonDetails></PokemonDetails>}></Route>
+        </Route>
         <Route path='formtask' element={<FormPage></FormPage>}></Route>
         <Route path='speedgame' element={<SpeedGame></SpeedGame>}></Route>
         <Route path='other' element={<Page></Page>}></Route>
       </Route>
-
+      <Route path='*' element={<Template></Template>} replace></Route>
     </Routes>
   )
 }

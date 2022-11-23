@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 const router = ["animal", "pokemon", "formtask", "speedgame", "other"];
 export default function Template() {
   const param = useLocation();
@@ -25,13 +25,14 @@ export default function Template() {
               {router?.map((item, index) => {
                 return (
                   <li key={index}>
-                    <Link
+                    <NavLink
                       to={`${item}`}
-                      className={`block text-2xl hover:text-blue-300 py-2 pr-4 pl-3 ${paramName?.includes(item) ? "text-blue-300" : "text-white"} `}
+                      className={`block text-2xl hover:text-blue-300 py-2 pr-4 pl-3 ${paramName?.includes(item) ? "text-blue-300" : "text-white"}`}
                       aria-current="page"
+                      // style={({ isActive }) => {}}
                     >
                       {item}
-                    </Link>
+                    </NavLink>
                   </li>
                 );
               })}

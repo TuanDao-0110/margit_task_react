@@ -8,3 +8,7 @@
 .animate__animated {
   --animate-duration: 1s;
 }
+
+a.active {
+  color: blue;
+}

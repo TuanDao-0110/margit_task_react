@@ -1,4 +1,4 @@
-### user stories
+### pokemon app : 
 
-# project use readux-toolkit and pokemon api to get data  and launch it UI
-
+1. use pokemon api to render a 
+2. 
