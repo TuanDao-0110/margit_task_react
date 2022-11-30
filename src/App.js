@@ -8,6 +8,7 @@ import FormPage from './form/FormPage'
 import SpeedGame from './speed_game/SpeedGame_Page'
 import Page from './otherspeedgame/Page'
 import PokemonDetails from './pokemon_project/PokemonDetails'
+import JsonPage from './json_server_project/Page'
 // import styles from './Counter.module.css'
 export default function App() {
   // const useSelector(state => state)
@@ -23,6 +24,8 @@ export default function App() {
         <Route path='formtask' element={<FormPage></FormPage>}></Route>
         <Route path='speedgame' element={<SpeedGame></SpeedGame>}></Route>
         <Route path='other' element={<Page></Page>}></Route>
+        <Route path='json_server' element={<JsonPage></JsonPage>}></Route>
+
       </Route>
       <Route path='*' element={<Template></Template>} replace></Route>
     </Routes>

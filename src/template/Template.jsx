@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-const router = ["animal", "pokemon", "formtask", "speedgame", "other"];
+const router = ["animal", "pokemon", "formtask", "speedgame", "other",'json_server'];
 export default function Template() {
   const param = useLocation();
   const [paramName, setParamName] = useState();

@@ -1,52 +1,42 @@
-import React from "react";
-import { useState } from "react";
-import Modal from "./modal/Modal";
-import style from "./modal/formpage.module.css";
-export default function FormPage() {
-  // 1. create form task
-  // 2. state control firstname, lastName, phoneNum, role, message
-  const [state, setState] = useState({
-    modal: false,
-    infor: {
+import axios from "axios";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { getData } from "./service";
+import style from "./popup/formpage.module.css";
+import Modal from "./popup/Modal";
+export default function Page() {
+  const [state, setState] = useState();
+  const [infor, setInfor] = useState({
+    firstname: "",
+    lastname: "",
+    phone: "",
+    role: "",
+    message: "",
+  });
+
+  const [modal, setModal] = useState(false);
+  const emptyInfor = () => {
+    setInfor({
       firstName: "",
       lastName: "",
       phoneNumber: "",
       role: "",
       message: "",
-    },
-  });
-  const emptyState = () => {
-    setState({
-      modal: false,
-      infor: {
-        firstName: "",
-        lastName: "",
-        phoneNumber: "",
-        role: "",
-        message: "",
-      },
     });
-  };
-  const handleSend = (e) => {
-    e.preventDefault();
-    !state.infor.role
-      ? alert("Select Your role")
-      : setState({
-          ...state,
-          modal: true,
-        });
   };
   const handleChange = (e, key) => {
-    let newValue = { ...state.infor };
+    let newValue = { ...infor };
     newValue[key] = e.target.value;
-    setState({
-      modal: false,
-      infor: newValue,
+    setInfor(() => {
+      return newValue;
     });
+
+    setModal(false);
   };
+
   const displayFormInput = () => {
     let display = [];
-    for (let i in state.infor) {
+    for (let i in infor) {
       let content = ``;
       if (i !== "role") {
         content = (
@@ -54,7 +44,7 @@ export default function FormPage() {
             <label className="w-1/3 text-xl">{i}</label>
             {i === "message" ? (
               <textarea
-                value={state.infor[i]}
+                value={infor[i]}
                 type="text"
                 required
                 className="w-2/3 p-2 border-r-amber-300 rounded-sm border-2 text-2xl font-serif h-56"
@@ -65,7 +55,7 @@ export default function FormPage() {
             ) : (
               <input
                 required
-                value={state.infor[i]}
+                value={infor[i]}
                 type="text"
                 className="w-2/3 p-2 border-r-amber-300 rounded-sm border-2 text-2xl font-serif "
                 onChange={(e) => {
@@ -80,7 +70,7 @@ export default function FormPage() {
           <div key={i} className="w-full flex justify-between mb-2  ">
             <label className="w-1/3 text-xl">{i}</label>
             <select
-              // value={state.infor[i]}
+              //   value={infor[i]}
               className="w-2/3 p-2 border-r-amber-300 rounded-sm border-2 text-2xl font-serif text-center capitalize"
               onChange={(e) => {
                 handleChange(e, i);
@@ -98,32 +88,55 @@ export default function FormPage() {
     }
     return display;
   };
+  const closeModal = () => {
+    setModal(false);
+  };
+  const handleSend = (e) => {
+    e.preventDefault();
+    console.log("send");
+    !infor.role ? alert("Select Your role") : setModal(true);
+  };
   const displayInfor = () => {
     let dispay = [];
-    for (let i in state.infor) {
+    for (let i in infor) {
       dispay.push(
         <div
           // className="w-full flex justify-between"
           className={style["paper"]}
         >
           <p>{i} </p>
-          <span className="bg-red-100 font-serif ">{state.infor[i]}</span>
+          <span className="bg-red-100 font-serif ">{infor[i]}</span>
         </div>
       );
     }
 
     return dispay;
   };
-  const closeModal = () => {
-    setState({
-      ...state,
-      modal: false,
+  const displayData = () => {
+    return state?.map((item, index) => {
+      const { firstname, lastname, phone, role, message } = item;
+      return (
+        <tr key={index} className=" border-cyan-300 border-4">
+          <th> {firstname}</th>
+          <th> {lastname}</th>
+          <th> {phone}</th>
+          <th> {role}</th>
+          <th> {message}</th>
+        </tr>
+      );
     });
   };
+  useEffect(() => {
+    getData("http://localhost:4000/notes", setState);
+  }, []);
+  useEffect(() => {
+    getData("http://localhost:4000/notes", setState);
+  }, [modal]);
+
   return (
-    <div>
-      <Modal display={state.modal} infor={state.infor} displayInfor={displayInfor} closeModal={closeModal} dState={emptyState}></Modal>
-      {/* form */}
+    <div className="h-screen">
+      <Modal state={state} display={modal} infor={infor} displayInfor={displayInfor} closeModal={closeModal} emptyState={emptyInfor}></Modal>
+
       <div className="bg-blue-400 w-3/4 mx-auto pb-10 px-10 " onSubmit={handleSend}>
         <h1 className="text-3xl text-center mt-2">form</h1>
         <form className="flex flex-wrap pt-10">
@@ -140,6 +153,19 @@ export default function FormPage() {
       </div>
       {/* display infor live */}
       <div className="bg-blue-100 w-3/4 mx-auto pb-10 px-10 mt-5 flex flex-wrap ">{displayInfor()}</div>
+      <div className="flex justify-center flex-wrap py-10">
+        <h1 className="text-3xl w-full text-center mb-5 text-rose-600">all data </h1>
+        <table>
+          <tr className="text-center border-4 border-cyan-400">
+            <th className="border-2 border-cyan-300 px-5">first name</th>
+            <th className="border-2 border-cyan-300 px-5">last name</th>
+            <th className="border-2 border-cyan-300 px-5">phone</th>
+            <th className="border-2 border-cyan-300 px-5">role</th>
+            <th className="border-2 border-cyan-300 px-5">message</th>
+          </tr>
+          {displayData()}
+        </table>
+      </div>
     </div>
   );
 }
