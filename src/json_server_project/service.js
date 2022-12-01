@@ -1,3 +1,4 @@
+import { Air } from "@mui/icons-material"
 import axios from "axios"
 
 
@@ -21,5 +22,18 @@ export const setData = async (url, body) => {
         }
     } catch (error) {
 
+    }
+}
+
+
+export const deleteHandler = async (newUrl, id, setState) => {
+    let url = `${newUrl}/${id}`
+    try {
+        const data = await axios.delete(`${url}`)
+        if (data) {
+            return getData(newUrl, setState)
+        }
+    } catch (error) {
+        alert(error)
     }
 }

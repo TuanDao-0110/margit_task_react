@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { getData } from "./service";
+import { deleteHandler, getData } from "./service";
 import style from "./popup/formpage.module.css";
 import Modal from "./popup/Modal";
+
+const url = "http://localhost:4000/notes";
 export default function Page() {
   const [state, setState] = useState();
   const [infor, setInfor] = useState({
@@ -114,14 +116,25 @@ export default function Page() {
   };
   const displayData = () => {
     return state?.map((item, index) => {
-      const { firstname, lastname, phone, role, message } = item;
+      const { firstname, lastname, phone, role, message, id } = item;
       return (
-        <tr key={index} className=" border-cyan-300 border-4">
+        <tr key={index} className=" border-cyan-300 border-4 py-5">
           <th> {firstname}</th>
           <th> {lastname}</th>
           <th> {phone}</th>
           <th> {role}</th>
           <th> {message}</th>
+          <th>
+            <button
+              className="bg-red-800 rounded-3xl text-red-100 text-sm p-2 hover:bg-red-300 duration-75"
+              onClick={() => {
+                console.log(id);
+                deleteHandler(url, id, setState);
+              }}
+            >
+              delete
+            </button>
+          </th>
         </tr>
       );
     });
@@ -162,6 +175,7 @@ export default function Page() {
             <th className="border-2 border-cyan-300 px-5">phone</th>
             <th className="border-2 border-cyan-300 px-5">role</th>
             <th className="border-2 border-cyan-300 px-5">message</th>
+            <th className="border-2 border-cyan-300 px-5">delete</th>
           </tr>
           {displayData()}
         </table>

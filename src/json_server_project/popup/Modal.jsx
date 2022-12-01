@@ -3,8 +3,7 @@ import React from "react";
 import { setData } from "../service";
 import style from "./modal.module.css";
 export default function Modal(props) {
-  const { display } = props;
-  const { displayInfor, closeModal, emptyState, infor, state } = props;
+  const { displayInfor, closeModal, emptyState, infor, state, display } = props;
   if (display) {
     return (
       <div className={style["bg"]}>

@@ -3,58 +3,10 @@
     {
       "firstname": "tuan",
       "lastname": "dao",
-      "phone": 403242,
-      "role": "teacher",
-      "message": "hello ",
+      "phone": "04824",
+      "role": "student",
+      "message": "new text",
       "id": 1
-    },
-    {
-      "firstname": "chau",
-      "lastname": "nguyen",
-      "phone": 403242,
-      "role": "teacher",
-      "message": "hello ",
-      "id": 2
-    },
-    {
-      "firstname": "joe",
-      "lastname": "dash",
-      "phone": 403242,
-      "role": "student",
-      "message": "hello ",
-      "id": 3
-    },
-    {
-      "firstname": "dan",
-      "lastname": "low",
-      "phone": 403242,
-      "role": "teacher",
-      "message": "hello ",
-      "id": 3
-    },
-    {
-      "firstname": "new name",
-      "lastname": "new name",
-      "phone": 403242,
-      "role": "student",
-      "message": "hello ",
-      "id": 5
-    },
-    {
-      "firstname": "new name",
-      "lastname": "new name",
-      "phone": "4208",
-      "role": "officer",
-      "message": "tuan",
-      "id": 6
-    },
-    {
-      "firstname": "new check name",
-      "lastname": "42",
-      "phone": "424-2",
-      "role": "security",
-      "message": "text ....",
-      "id": 7
     }
   ]
 }
